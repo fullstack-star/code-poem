@@ -1,5 +1,8 @@
 
 const THE_TRADE_WAR = (function () {
+    const FROM = "2018"
+    const TO = "?"  //It seems a long fight to go
+
     let crazyAmerican = "Donald Trump"
 
     class CrazyUSA{
@@ -7,10 +10,10 @@ const THE_TRADE_WAR = (function () {
             this.stakeholders = aGroupOfCrazyGuys
         }
 
-        emit(socalledReasonableReason, socalledLaw){
+        emit(eventType, socalledReasonableReason){
             try{
-                let e = new Error(socalledReasonableReason)
-                e.message = socalledLaw
+                let e = new Error(eventType)
+                e.message = socalledReasonableReason
                 throw e
             }catch (e){
                 console.error(`${e.message}!? How RIDICULOUS!!!`)
@@ -35,6 +38,7 @@ const THE_TRADE_WAR = (function () {
     }
 
     const _process = () => {
+        console.log(`Since ${FROM}`)
         let evilUSA = new CrazyUSA([crazyAmerican, 'other crazy people'])
         let chineseGov = new GreatChina('Xi')
         chineseGov.registerPlan({
@@ -66,7 +70,7 @@ const THE_TRADE_WAR = (function () {
     }
 
     return {
-        showReason: function () {
+        showBackground: function () {
             console.warn(`${crazyAmerican} said that wanna make America great again`)
         },
         getProcess: function () {
