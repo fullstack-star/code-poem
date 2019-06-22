@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代码日记</title>
+</head>
+<script>
+    /**
+     * created by zhangyi on 2019年06月22日
+     */
+    const DATE = "2019年6月21日",
+        WEATHER = "雨天",
+        LOCATION = "西安";
+    const TIME_NODE = {
+        LUNCH: "12:00",
+        DINNER: "19:00",
+        SLEEP: "23:30"
+    };
+
+    var myEmotion = "I'm fine 🙂,just lonely.";
+    var pollingId;
+    var VehicleFactory = function (type, ...content) {
+        if (this instanceof VehicleFactory) {
+            return this[type].apply(this,content);
+        } else {
+            return new VehicleFactory(type, content);
+        }
+    }
+    VehicleFactory.prototype = {
+        _aToB: function (type, from, to) {
+            console.log(`从${from}到${to} ${type}`);
+        },
+        walk: function (from, to, time) {
+            this._aToB("步行", from, to);
+            console.log(`用时 ${time}.`);
+        },
+        bike: function (from, to, time) {
+            this._aToB("骑自行车", from, to);
+            console.log(`用时 ${time}.`);
+        },
+        bus: function (from, to, time, cost) {
+            this._aToB("坐公交车", from, to);
+            console.log(`用时 ${time},花了 ${cost}.`);
+        },
+        subway: function (from, to, time, cost) {
+            this._aToB("乘坐地铁", from, to);
+            console.log(`用时 ${time},花了${cost}.`);
+        }
+    }
+
+    /**
+     * 吃饭
+     */
+    var eatMeal = function (type, cost) {
+        console.log(`吃 ${type}，花了 ${cost}。`)
+    }
+
+    /**
+     * 每隔10分钟check一遍时间，到了睡觉时间就睡觉，否则继续看。
+     * @param {*} name 书名
+     */
+    var readBook = function (name) {
+        var now = timeFormat();
+        if (now < TIME_NODE.SLEEP)
+            console.log(`还不到睡觉时间，看会书 ${name},`)
+        else
+            fallAsleep();
+    }
+
+    /**
+     * 写代码
+     */
+    var coding = function () {
+        console.log("一杯茶，一包烟，一行代码写一天🙂。")
+    }
+
+    /**
+     * 睡觉
+     */
+    var fallAsleep = function () {
+        pollingId && clearTimeout(pollingId);
+        console.log("到睡觉时间啦，nice dream~");
+    }
+
+    function polling(fn, time, content) {
+        pollingId = setTimeout(function run() {
+            fn.call(null, content);
+            pollingId = setTimeout(run, time);
+        }, time);
+    }
+
+    /**
+     * 格式化时间，输出hh:mm格式
+     * @param {*} date 
+     */
+    function timeFormat(date) {
+        if (!(date instanceof Date)) date = new Date();
+        var time = {};
+        time.Hour = date.getHours();
+        time.Thour = time.Hour < 10 ? '0' + time.Hour : String(time.Hour);
+        time.Minute = date.getMinutes();
+        time.TMinute = time.Minute < 10 ? '0' + time.Minute : String(time.Minute);
+        return time.Thour + ":" + time.TMinute;
+    }
+
+    (function printDairy() {
+        console.log(`今天是${DATE}，${LOCATION}今天是${WEATHER}，${myEmotion}`);
+        new VehicleFactory('walk','家里', '地铁站', '5分钟');
+        new VehicleFactory('subway','地铁站', '公交站', '15分钟', "3块钱");
+        new VehicleFactory('bus','公交站', '公司', '10分钟','1块钱');
+        eatMeal('早饭','5块钱');
+        console.log('吃完早饭已经9点了，开始工作~');
+        coding();
+        console.log('12点与同事出去吃饭~');
+        new VehicleFactory('bike','公司', '美食城', '5分钟');
+        eatMeal('午饭','12块钱');
+        console.log('吃完午饭回来眯一会，一点半起来工作~');
+        coding();
+        console.log('7点出去吃晚饭，今天又要加班~');
+        eatMeal('晚饭','15块钱');
+        console.log('加班回到家10点')
+        polling(readBook,3000,'《最怕你一生碌碌无为，还安慰自己平凡可贵》')
+    })()
+</script>
+
+</body>
+
+<body>
+
+
+</html>
