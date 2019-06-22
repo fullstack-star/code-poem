@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.bootcss.com/EventEmitter/5.2.6/EventEmitter.js"></script>
+  <title>Diary</title>
+</head>
+<body>
+  2018年8月8日日记，请在控制台查看。
+<script>
+  const ee = new EventEmitter()
+  
+  const DATE = new Date('2018-8-8')
+  const LOCATION = '华山'
+  const WHETHER = '晴朗'
+
+  ee.on('set-out', (whether, date, location) => {
+    console.log(`${date.toLocaleDateString()},今天天气${whether},我出发前往${location}。`)
+  })
+
+  ee.on('arrive', (location, time) => {
+    console.log(`我在${time}到达了${location}`)
+  })
+
+  ee.on('leave', (location, time) => {
+    console.log(`我在${time}离开了${location}`)
+  })
+
+  ee.on('mood-change', (level, mood) => {
+    console.log(`我变得${level}${mood}`)
+  })
+
+  ee.on('state-change', (level, state) => {
+    console.log(`我觉得${level}${state}`)
+  })
+
+  ee.on('climb', kilometre => {
+    console.log(`我爬了${kilometre}公里`)
+  })
+
+  ee.on('top', location => {
+    console.log(`我登上了${location}`)
+  })
+
+  ee.on('rest', minutes => {
+    console.log(`我休息了${minutes}分钟`)
+  })
+
+  const goTravel = () => {
+    ee.emit('set-out', WHETHER, DATE, LOCATION)
+    ee.emit('arrive', LOCATION, '上午12点')
+    console.log('--------------')
+    ee.emit('climb', 2)
+    ee.emit('state-change', '有点', '累')
+    ee.emit('mood-change', '有点', '开心')
+    ee.emit('rest', 30)
+    console.log('--------------')    
+    ee.emit('climb', 3)
+    ee.emit('state-change', '很', '累')
+    ee.emit('mood-change', '有点', '难受')
+    ee.emit('rest', 45)    
+    console.log('--------------')
+    ee.emit('climb', 5)
+    ee.emit('state-change', '不那么', '累')
+    ee.emit('mood-change', '不那么', '难受')
+    ee.emit('rest', 20)  
+    console.log('--------------')
+    ee.emit('top', LOCATION)
+    ee.emit('rest', 50)
+    console.log('--------------')
+    ee.emit('leave', LOCATION, '下午6点')
+    ee.emit('state-change', '很', '开心')
+  }
+  goTravel()
+</script>
+</body>
+</html>
