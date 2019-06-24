@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>happyDay</title>
+    </head>
+    <body>
+        <script>
+            const NAME = '郭宇';
+            function Person(name){
+                this.name = name;
+                this.introduce = function(){
+                    return '我是 ' + this.name;
+                }
+            }
+            let startDate = new Date('2019/2/23').getTime();
+            let author = new Person(NAME); 
+            let date = new Date();
+            Date.prototype.toLocaleString = function() {
+                return this.getFullYear() + '年' + ((this.getMonth()+1) > 9?(this.getMonth()+1):'0'+(this.getMonth()+1)) + '月' + (this.getDate() > 9?this.getDate():'0'+this.getDate()) + '日';
+            };
+            let dateGap = Math.floor((date.getTime() - startDate)/86400000);
+            console.log('hello',author.introduce());
+            console.log('今天是 ' + date.toLocaleString());
+            console.log('也是我减肥的第',dateGap,'天');
+            let dietPlan = {
+                carbohydrates:['紫薯','红薯','南瓜','玉米','糙米','全麦面包'],
+                proteins:['水煮鸡胸肉','水煮蛋','白灼虾'],
+                fats:['坚果','牛油果','三文鱼'],
+                fruits:['苹果','梨子','火龙果']
+            }
+            function getRandomfood(arr){
+                return arr[Math.ceil(parseInt(Math.random()*arr.length,10))];
+            }
+            console.log('今天的早餐是：',getRandomfood(dietPlan.carbohydrates),getRandomfood(dietPlan.proteins),'还吃了点补充维生素的水果:',getRandomfood(dietPlan.fruits));
+            console.log('午餐可以吃：',getRandomfood(dietPlan.proteins),getRandomfood(dietPlan.fats));
+            console.log('晚餐是：',getRandomfood(dietPlan.carbohydrates));
+            console.log('希望可以早日减肥成功，加油！！！');
+
+
+        </script>
+    </body>
+</html>
