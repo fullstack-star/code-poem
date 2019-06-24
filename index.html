@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My diary</title>
+</head>
+<body>
+<script src="Observer.js"></script>
+<script>
+    const DIARY_TITLE = '周末时光';
+    const DIARY_TIME = new Date('2019/06/24');
+    const WEATHER = '晴';
+
+    let plan = {
+        "0600": "起床",
+        "0630": "跑步",
+        "0730": "吃早餐",
+        "0800": "打代码",
+        "0930": "看电视",
+        "1030": "逛超市",
+        "1130": "下厨房做美食",
+        "1400": "午休",
+        "1600": "玩游戏",
+        "1800": "午餐",
+        "2000": "游泳或珠江边散步",
+        "1000": "看书",
+        "2300": "睡觉",
+    }
+    class MyPlan {
+        constructor(plan) {
+            this.plan = plan;
+            this.start();
+        }
+        // 开始
+        start() {
+            Object.keys(this.plan).forEach((timeNode) => {
+                Observer.regist(timeNode, () => {
+                    console.log(this.plan[timeNode])
+                })
+            });
+            this.fire();
+        }
+        fire() {
+            let hours = new Date().getHours();
+            let minutes = new Date().getMinutes();
+            hours = hours.length > 1 ? hours : `0${hours}`;
+            minutes = minutes.length > 1 ? minutes : `0${minutes}`;
+            let currentTime = `${hours}${minutes}`;
+            setTimeout(() => {
+                Observer.fire(currentTime);
+                this.fire();
+            }, 1000)
+        }
+        // 增加计划
+        addPlan(timeNode, desc) {
+            if (this.plan[timeNode]) {
+                console.log('已经有计划');
+                return
+            }
+            Observer.regist(time, () => {
+                console.log(desc)
+            })
+        }
+        // 删除计划
+        delPlan(timeNode) {
+            const plan = this.plan[timeNode];
+            if (this.plan[timeNode]) {
+                delete this.plan[timeNode];
+                console.log(`已删除一个 ${plan} 计划`)
+            }
+        }
+    }
+
+    var oneDay = new MyPlan(plan);
+    // 起晚了
+    console.log('滴滴滴，睡过头了');
+    // 删除两个计划
+    oneDay.delPlan('0600');
+    oneDay.delPlan('0630');
+</script>
+
+</body>
+</html>
